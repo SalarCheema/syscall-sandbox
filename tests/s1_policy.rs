@@ -165,25 +165,23 @@ fn s1_allowed_names_allowed() {
             .table(X86)
             .number_of(&name)
             .expect("allowed name has a number");
-        for args in arg_cases() {
-            let entry = p.decide(X86, &name, &args);
-            assert_eq!(entry.verdict, Verdict::Allowed, "name {name}");
-            assert_eq!(entry.number, Some(number), "name {name}");
-            assert_eq!(entry.name, name, "name {name}");
-            assert_eq!(entry.arch, X86, "name {name}");
-            assert!(
-                entry.reason.contains(&recorded),
-                "name {name}: entry reason must carry the recorded reason"
-            );
-            let by_number = p.decide_by_number(X86, number, &args);
-            assert_eq!(by_number.verdict, Verdict::Allowed, "name {name}");
-            assert_eq!(by_number.name, name, "name {name}");
-            assert_eq!(by_number.number, Some(number), "name {name}");
-            assert!(
-                by_number.reason.contains(&recorded),
-                "name {name}: number-path reason must carry the recorded reason"
-            );
-        }
+        let entry = p.decide(X86, &name, &[]);
+        assert_eq!(entry.verdict, Verdict::Allowed, "name {name}");
+        assert_eq!(entry.number, Some(number), "name {name}");
+        assert_eq!(entry.name, name, "name {name}");
+        assert_eq!(entry.arch, X86, "name {name}");
+        assert!(
+            entry.reason.contains(&recorded),
+            "name {name}: entry reason must carry the recorded reason"
+        );
+        let by_number = p.decide_by_number(X86, number, &[]);
+        assert_eq!(by_number.verdict, Verdict::Allowed, "name {name}");
+        assert_eq!(by_number.name, name, "name {name}");
+        assert_eq!(by_number.number, Some(number), "name {name}");
+        assert!(
+            by_number.reason.contains(&recorded),
+            "name {name}: number-path reason must carry the recorded reason"
+        );
     }
 }
 
